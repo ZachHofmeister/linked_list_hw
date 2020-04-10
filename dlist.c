@@ -31,7 +31,7 @@ size_t dlist_size(dlist * list) {
 //NULL <-- head <--> tail --> NULL
 void dlist_popfront(dlist * list) {
     if (dlist_empty(list)) {
-        fprintf(stderr, "Underflow error (dlist_pop_front()): List is empty.\n");
+        fprintf(stderr, "Underflow error (dlist_popfront()): List is empty.\n");
         return;
     }
     dnode * p = list->head;
@@ -46,7 +46,7 @@ void dlist_popfront(dlist * list) {
 //NULL <-- head <--> tail --> NULL
 void dlist_popback(dlist * list) {
     if (dlist_empty(list)) {
-        fprintf(stderr, "Underflow error (dlist_pop_back()): List is empty.\n");
+        fprintf(stderr, "Underflow error (dlist_popback()): List is empty.\n");
         return;
     }
     dnode * p = list->tail;
@@ -58,10 +58,8 @@ void dlist_popback(dlist * list) {
 }
 
 void dlist_pushfront(dlist * list, int data) {
-    dnode * node = dnode_create(data, NULL, NULL);
-    node->next = list->head;
+    dnode * node = dnode_create(data, NULL, list->head);
     if (list->size != 0) list->head->prev = node;
-    node->prev = NULL;
     list->head = node;
     if (list->size == 0) list->tail = node;
     ++list->size;
@@ -72,9 +70,7 @@ void dlist_pushback(dlist * list, int data) {
         dlist_pushfront(list, data);
         return;
     }
-    dnode * node = dnode_create(data, NULL, NULL);
-    node->next = NULL;
-    node->prev = list->tail;
+    dnode * node = dnode_create(data, list->tail, NULL);
     list->tail->next = node;
     list->tail = node;
     ++list->size;

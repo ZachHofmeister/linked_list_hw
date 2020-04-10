@@ -28,7 +28,7 @@ size_t slist_size(slist * list) {
 
 void slist_popfront(slist * list) {
     if (slist_empty(list)) {
-        fprintf(stderr, "Underflow error (slist_pop_front()): List is empty.\n");
+        fprintf(stderr, "Underflow error (slist_popfront()): List is empty.\n");
         return;
     }
     snode * p = list->head;
@@ -40,7 +40,7 @@ void slist_popfront(slist * list) {
 
 void slist_popback(slist * list) {
     if (slist_empty(list)) {
-        fprintf(stderr, "Underflow error (slist_pop_back()): List is empty.\n");
+        fprintf(stderr, "Underflow error (slist_popback()): List is empty.\n");
         return;
     }
     snode * p = list->head;
@@ -51,8 +51,7 @@ void slist_popback(slist * list) {
 }
 
 void slist_pushfront(slist * list, int data) {
-    snode * node = snode_create(data, NULL);
-    node->next = list->head;
+    snode * node = snode_create(data, list->head);
     list->head = node;
     if (list->size == 0) list->tail = node;
     ++list->size;
@@ -64,7 +63,6 @@ void slist_pushback(slist * list, int data) {
         return;
     }
     snode * node = snode_create(data, NULL);
-    node->next = NULL;
     list->tail->next = node;
     list->tail = node;
     ++list->size;
